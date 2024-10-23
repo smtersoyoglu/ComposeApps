@@ -19,16 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.smtersoyoglu.navigationapp.data.getWordList
 import com.smtersoyoglu.navigationapp.ui.theme.teal_650
 
 @Composable
-fun WordDetailScreen(wordId: Int) {
+fun WordDetailScreen( navController: NavController,wordId: Int) {
     val word = getWordList().find { it.id == wordId }
 
     word?.let {
@@ -88,7 +90,7 @@ fun WordDetailScreen(wordId: Int) {
             )
 
             Button(
-                onClick = { /* Learn this word logic */ },
+                onClick = { navController.popBackStack()},
                 colors = ButtonDefaults.buttonColors(teal_650),
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
@@ -111,5 +113,5 @@ fun WordDetailScreen(wordId: Int) {
 @Preview(showBackground = true)
 @Composable
 fun WordDetailScreenPreview() {
-    WordDetailScreen(wordId = 3)
+    //WordDetailScreen(navController = NavController(LocalContext.current), wordId = 3)
 }

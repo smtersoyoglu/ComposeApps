@@ -18,11 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.smtersoyoglu.navigationapp.components.ItemCard
 import com.smtersoyoglu.navigationapp.data.getWordList
 
 @Composable
-fun WordGridScreen() {
+fun WordGridScreen(navController: NavController) {
     val wordList = getWordList()
 
     Column(
@@ -51,9 +52,10 @@ fun WordGridScreen() {
             modifier = Modifier.fillMaxSize()
         ) {
             items(wordList) { word ->
-                ItemCard(word = word)
+                ItemCard(word = word) {
+                    navController.navigate("wordDetailScreen/${word.id}")
+                }
             }
         }
     }
-
 }

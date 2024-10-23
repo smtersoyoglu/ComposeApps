@@ -1,6 +1,7 @@
 package com.smtersoyoglu.navigationapp.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,12 +30,13 @@ import com.smtersoyoglu.navigationapp.data.Word
 
 
 @Composable
-fun ItemCard(word: Word) {
+fun ItemCard(word: Word, onClick: () -> Unit) {
     Card(
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 20.dp),
         modifier = Modifier
             .padding(8.dp)
-            .width(200.dp), // Kartın genişliğini buradan ayarlayabilirsiniz
+            .width(200.dp) // Kartın genişliğini buradan ayarlayabilirsiniz
+            .clickable { onClick() },
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0)) // Yumuşak gri
     ) {
