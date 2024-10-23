@@ -18,11 +18,13 @@ fun WordAppNav(modifier: Modifier) {
         composable("wordGridScreen") {
             WordGridScreen(navController)
         }
-        composable("wordDetailScreen/{wordId}", arguments = listOf(navArgument("wordId") { type = NavType.IntType })
+        composable(
+            "wordDetailScreen/{wordId}",
+            arguments = listOf(navArgument("wordId") { type = NavType.IntType })
         ) { backStackEntry ->
             val wordId = backStackEntry.arguments?.getInt("wordId")
             wordId?.let {
-                WordDetailScreen(navController,wordId)
+                WordDetailScreen(navController, wordId)
             }
         }
     }

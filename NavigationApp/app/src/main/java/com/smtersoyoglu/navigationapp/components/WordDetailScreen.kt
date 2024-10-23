@@ -1,9 +1,12 @@
 package com.smtersoyoglu.navigationapp.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.smtersoyoglu.navigationapp.data.getWordList
 import com.smtersoyoglu.navigationapp.ui.theme.teal_650
@@ -34,6 +38,14 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
     val word = getWordList().find { it.id == wordId }
 
     word?.let {
+        // Sağ taraftaki renk bloğu
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.5f) // Ekranın sağ yarısını kaplar
+                .fillMaxHeight(0.5f) // Ekranın yarısını kaplar)
+                .background(Color(0xFF5196A2)) // Arka plan rengi
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -51,7 +63,7 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
                 ),
                 modifier = Modifier.padding(top = 16.dp)
             )
-            Spacer(modifier = Modifier.height(96.dp))
+            Spacer(modifier = Modifier.height(86.dp))
             Image(
                 painter = painterResource(id = word.imageUrl),
                 contentDescription = word.english,
@@ -62,7 +74,7 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
                 contentScale = ContentScale.Fit
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(66.dp))
             Text(
                 text = word.translation,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -88,7 +100,7 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
                 modifier = Modifier.padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center
             )
-
+            Spacer(modifier = Modifier.height(4.dp))
             Button(
                 onClick = { navController.popBackStack()},
                 colors = ButtonDefaults.buttonColors(teal_650),
@@ -96,12 +108,13 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
                     .fillMaxWidth(0.5f)
                     .padding(vertical = 16.dp),
                 shape = RoundedCornerShape(8.dp)
-                ) {
+            ) {
                 Text(
                     text = "Learned",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    modifier = Modifier.padding(6.dp)
                 )
             }
 
@@ -113,5 +126,5 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
 @Preview(showBackground = true)
 @Composable
 fun WordDetailScreenPreview() {
-    //WordDetailScreen(navController = NavController(LocalContext.current), wordId = 3)
+    WordDetailScreen(navController = NavController(LocalContext.current), wordId = 4)
 }
