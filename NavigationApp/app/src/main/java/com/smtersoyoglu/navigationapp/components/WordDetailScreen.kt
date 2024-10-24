@@ -24,8 +24,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,17 +57,35 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Learn This Word",
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Learn ")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("This ")
+                    }
+                    append("Word")
+                },
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = ButtonDefaults.buttonColors(teal_650).containerColor
                 ),
                 modifier = Modifier.padding(top = 16.dp)
             )
-            Spacer(modifier = Modifier.height(86.dp))
+            Spacer(modifier = Modifier.height(106.dp))
             Image(
                 painter = painterResource(id = word.imageUrl),
                 contentDescription = word.english,
@@ -77,25 +99,29 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
             Spacer(modifier = Modifier.height(66.dp))
             Text(
                 text = word.translation,
-                style = MaterialTheme.typography.titleLarge.copy(
+                style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF3E4A59)
+                    color = Color(0xFF3E4A59),
+                    fontSize = 34.sp
                 )
             )
+            Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
 
             Text(
                 text = word.english,
-                style = MaterialTheme.typography.headlineMedium.copy(
+                style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFE5C265)
+                    color = Color(0xFFE5C265),
+                    fontSize = 36.sp
                 )
             )
-
+            Spacer(modifier = Modifier.height(4.dp)) // 6.dp uzaklık
             Text(
                 text = word.sentence,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF7B8A97)
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF7B8A97),
+                    fontSize = 28.sp
                 ),
                 modifier = Modifier.padding(horizontal = 16.dp),
                 textAlign = TextAlign.Center
@@ -112,8 +138,8 @@ fun WordDetailScreen( navController: NavController,wordId: Int) {
                 Text(
                     text = "Learned",
                     color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp,
                     modifier = Modifier.padding(6.dp)
                 )
             }

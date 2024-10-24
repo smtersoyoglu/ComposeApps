@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.smtersoyoglu.navigationapp.navigation.WordAppNav
-import com.smtersoyoglu.navigationapp.screens.WordGridScreen
 import com.smtersoyoglu.navigationapp.ui.theme.NavigationAppTheme
 
 class MainActivity : ComponentActivity() {

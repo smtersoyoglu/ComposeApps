@@ -58,8 +58,9 @@ fun ItemCard(word: Word, onClick: () -> Unit) {
             Text(
                 text = word.translation,
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 24.sp
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
@@ -70,7 +71,7 @@ fun ItemCard(word: Word, onClick: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFFDBBF41),
-                    fontSize = 24.sp
+                    fontSize = 32.sp
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
