@@ -20,7 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.smtersoyoglu.navigationapp.components.ItemCard
+import com.smtersoyoglu.navigationapp.components.WordDetailScreen
 import com.smtersoyoglu.navigationapp.data.getWordList
+import com.smtersoyoglu.navigationapp.navigation.Screen
 
 @Composable
 fun WordGridScreen(navController: NavController) {
@@ -53,7 +55,8 @@ fun WordGridScreen(navController: NavController) {
         ) {
             items(wordList) { word ->
                 ItemCard(word = word) {
-                    navController.navigate("wordDetailScreen/${word.id}")
+                    //navController.navigate("wordDetailScreen/${word.id}")
+                    navController.navigate(Screen.WordDetailScreen.createRoute(word.id))
                 }
             }
         }
