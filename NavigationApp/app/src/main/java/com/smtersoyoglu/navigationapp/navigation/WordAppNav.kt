@@ -4,40 +4,69 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.smtersoyoglu.navigationapp.components.WordDetailScreen
+import com.smtersoyoglu.navigationapp.bottomnav.BottomNavBar
+import com.smtersoyoglu.navigationapp.screens.LearnedWordsScreen
+import com.smtersoyoglu.navigationapp.screens.WordDetailScreen
 import com.smtersoyoglu.navigationapp.screens.WordGridScreen
 
 @Composable
 fun WordAppNav(modifier: Modifier) {
     val navController = rememberNavController()
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = currentBackStackEntry?.destination?.route
 
-    NavHost(navController, startDestination = Screen.WordGridScreen.route) {
-        composable(
-            Screen.WordGridScreen.route,
-            enterTransition = ::slideInToRight,
-            exitTransition = ::slideOutToLeft
-        ) {
-            WordGridScreen(navController)
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            if (currentDestination != Screen.WordDetailScreen.route) {
+                BottomNavBar(navController = navController)
+            }
         }
-        composable(
-            Screen.WordDetailScreen.route,
-            arguments = listOf(navArgument("wordId") { type = NavType.IntType }),
-            enterTransition = ::slideInToLeft,
-            exitTransition = ::slideOutToLeft,
-            popEnterTransition = ::slideInToRight,
-            popExitTransition = ::slideOutToRight
-        ) { backStackEntry ->
-            val wordId = backStackEntry.arguments?.getInt("wordId")
-            wordId?.let {
-                WordDetailScreen(navController, wordId)
+    ) { innerPadding ->
+        NavHost(
+            navController,
+            startDestination = Screen.WordGridScreen.route,
+            Modifier.padding(innerPadding)
+        ) {
+            composable(
+                Screen.WordGridScreen.route,
+                enterTransition = ::slideInToRight,
+                exitTransition = ::slideOutToLeft
+            ) {
+                WordGridScreen(navController)
+            }
+
+            composable(
+                Screen.LearnedWordsScreen.route
+
+            ) {
+                LearnedWordsScreen(navController)
+            }
+
+            composable(
+                Screen.WordDetailScreen.route,
+                arguments = listOf(navArgument("wordId") { type = NavType.IntType }),
+                enterTransition = ::slideInToLeft,
+                exitTransition = ::slideOutToLeft,
+                popEnterTransition = ::slideInToRight,
+                popExitTransition = ::slideOutToRight
+            ) { backStackEntry ->
+                val wordId = backStackEntry.arguments?.getInt("wordId")
+                wordId?.let {
+                    WordDetailScreen(navController, wordId)
+                }
             }
         }
     }
