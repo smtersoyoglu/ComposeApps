@@ -1,5 +1,7 @@
 package com.smtersoyoglu.navigationapp.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -20,21 +22,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.smtersoyoglu.navigationapp.components.ItemCard
-import com.smtersoyoglu.navigationapp.components.WordDetailScreen
 import com.smtersoyoglu.navigationapp.data.getWordList
 import com.smtersoyoglu.navigationapp.navigation.Screen
 
 @Composable
 fun WordGridScreen(navController: NavController) {
     val wordList = getWordList()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.background) // Arka plan rengi
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(36.dp))
         Text(
             text = "Word Cards",
             style = MaterialTheme.typography.headlineLarge.copy(
@@ -44,14 +44,17 @@ fun WordGridScreen(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
-        // Başlık altında 24dp boşluk bırakıyoruz
+        // Başlık altında 12dp boşluk bırakıyoruz
         Spacer(modifier = Modifier.height(12.dp))
 
         // Kelime kartlarını göstermek için grid
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background) // Arka plan rengi
+
         ) {
             items(wordList) { word ->
                 ItemCard(word = word) {
