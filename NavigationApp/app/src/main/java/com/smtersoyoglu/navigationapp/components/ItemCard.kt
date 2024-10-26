@@ -32,13 +32,13 @@ import com.smtersoyoglu.navigationapp.data.Word
 @Composable
 fun ItemCard(word: Word, onClick: () -> Unit) {
     Card(
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 20.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
         modifier = Modifier
             .padding(8.dp)
             .width(200.dp) // Kartın genişliğini buradan ayarlayabilirsiniz
             .clickable { onClick() },
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0)) // Yumuşak gri
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFFFF)) // Yumuşak gri
     ) {
         Column(
             modifier = Modifier.padding(15.dp),
