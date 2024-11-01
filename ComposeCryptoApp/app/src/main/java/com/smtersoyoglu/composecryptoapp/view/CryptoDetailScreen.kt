@@ -10,9 +10,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -31,6 +39,7 @@ import com.smtersoyoglu.composecryptoapp.model.Crypto
 import com.smtersoyoglu.composecryptoapp.util.Resource
 import com.smtersoyoglu.composecryptoapp.viewmodel.CryptoDetailViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CryptoDetailScreen(
     id: String,
@@ -67,56 +76,82 @@ fun CryptoDetailScreen(
 
     //Step 3 -> Best
 
+
     val cryptoItem by produceState<Resource<Crypto>>(initialValue = Resource.Loading()) {
         value = viewModel.getCrypto(id)
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color(0xFF1B1B2F)),
-        contentAlignment = Alignment.Center,
-    ) {
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            when(cryptoItem) {
-                is Resource.Success -> {
-                    val selectedCrypto = cryptoItem.data!![0]
-                    Text(text = selectedCrypto.name,
-                        fontSize = 40.sp,
-                        modifier = Modifier.padding(2.dp),
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFFF2E7FE),
-                        textAlign = TextAlign.Center)
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    AsyncImage(
-                        model = selectedCrypto.logo_url,
-                        contentDescription = selectedCrypto.name,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(300.dp, 300.dp)
-                            .clip(CircleShape)
-                            .border(2.dp, Color.Gray, CircleShape)
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(text = price,
-                        style = MaterialTheme.typography.headlineMedium,
-                        modifier = Modifier.padding(2.dp),
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFFB8C1EC),
-                        textAlign = TextAlign.Center
-
-                    )
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1B1B2F),
+                    titleContentColor = Color(0xFFF2E7FE),
+                ),
+                title = { Text("Crypto Detail", fontSize = 32.sp ) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color(0xFFF2E7FE)
+                        )
+                    }
                 }
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color(0xFF1B1B2F))
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                when (cryptoItem) {
+                    is Resource.Success -> {
+                        val selectedCrypto = cryptoItem.data!![0]
+                        Text(
+                            text = selectedCrypto.name,
+                            fontSize = 40.sp,
+                            modifier = Modifier.padding(2.dp),
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFF2E7FE),
+                            textAlign = TextAlign.Center
+                        )
 
-                is Resource.Error -> {
-                    Text(cryptoItem.message!!)
-                }
-                is Resource.Loading -> {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        AsyncImage(
+                            model = selectedCrypto.logo_url,
+                            contentDescription = selectedCrypto.name,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .size(300.dp)
+                                .clip(CircleShape)
+                                .border(2.dp, Color.Gray, CircleShape)
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Text(
+                            text = price,
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.padding(2.dp),
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFB8C1EC),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        Text(cryptoItem.message!!)
+                    }
+
+                    is Resource.Loading -> {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
                 }
             }
         }
