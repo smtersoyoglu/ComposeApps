@@ -34,13 +34,13 @@ class CryptoListViewModel @Inject constructor(
             isLoading.value = true
             when (val result = repository.getCryptoList()) {
                 is Resource.Success -> {
-                    val cryptoItems = result.data!!.map {
-                        CryptoListItem(it.currency, it.price)
+                    val cryptoItems = result.data!!.mapIndexed { _, cryptoListItem ->
+                        CryptoListItem(cryptoListItem.currency,cryptoListItem.price)
                     }
 
+                    cryptoList.value += cryptoItems
                     errorMessage.value = ""
                     isLoading.value = false
-                    cryptoList.value += cryptoItems
                 }
 
                 is Resource.Error -> {
@@ -58,7 +58,7 @@ class CryptoListViewModel @Inject constructor(
 
 
     fun searchCryptoList(query: String) {
-        var listToSearch = if (isSearchStarting) {
+        val listToSearch = if (isSearchStarting) {
             cryptoList.value  //arama başladıysa internetten çektiğimiz verilerden gösteriyoruz.
         } else {
             initialCryptoList // arama işlemi bittiyse listeyi kaydettiğimiz yerden tekrar çekiyoruz(internetten indirmiyoruz)
